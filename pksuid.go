@@ -172,6 +172,12 @@ func (p *PKSUID) Scan(src interface{}) error {
 		*p = Nil
 		return nil
 	case []byte:
+		if len(v) > pksuidByteLength {
+			return p.UnmarshalText(v)
+		}
+		if len(v) > prefixByteLength && isBase62Bytes(v[prefixByteLength:]) {
+			return p.UnmarshalText(v)
+		}
 		return p.UnmarshalBinary(v)
 	case string:
 		return p.UnmarshalText([]byte(v))

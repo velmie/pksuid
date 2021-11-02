@@ -173,9 +173,11 @@ func TestSqlValuer(t *testing.T) {
 }
 
 func TestSqlScanner(t *testing.T) {
-	prefix := Prefix{'b', 'a', 'z'}
+	prefix := Prefix{'m', 'a', 'x', 'l', 'e', 'n', 'g', 't', 'h', 'p', 'r', 'e', 'f', 'i', 'x', ':'}
 	id1 := New(prefix)
 	id2 := New(prefix)
+	id3 := New(NilPrefix)
+	id4 := New(Prefix{'0'})
 
 	tests := []struct {
 		pksuid PKSUID
@@ -183,7 +185,14 @@ func TestSqlScanner(t *testing.T) {
 	}{
 		{Nil, nil},
 		{id1, id1.String()},
+		{id1, []byte(id1.String())},
 		{id2, id2.Bytes()},
+		{id3, id3.String()},
+		{id3, []byte(id3.String())},
+		{id3, id3.Bytes()},
+		{id4, id4.String()},
+		{id4, []byte(id4.String())},
+		{id4, id4.Bytes()},
 	}
 
 	for _, test := range tests {
