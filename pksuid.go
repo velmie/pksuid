@@ -175,7 +175,7 @@ func (p *PKSUID) Scan(src interface{}) error {
 		if len(v) > pksuidByteLength {
 			return p.UnmarshalText(v)
 		}
-		if len(v) > prefixByteLength && isBase62Bytes(v[prefixByteLength:]) {
+		if len(v) >= ksuidStringEncodedLength && isBase62Bytes(v[len(v)-ksuidStringEncodedLength:]) {
 			return p.UnmarshalText(v)
 		}
 		return p.UnmarshalBinary(v)
